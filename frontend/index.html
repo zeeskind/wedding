@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Python Output</title>
+  <style>
+    body { font-family: monospace; padding: 2rem; background: #111; color: #0f0; }
+    pre { background: #222; padding: 1rem; border-radius: 8px; min-height: 200px; }
+  </style>
+</head>
+<body>
+  <h1>Real-time Python Output</h1>
+  <pre id="output"></pre>
+  <script>
+    const out = document.getElementById('output');
+    const es = new EventSource('/stream');
+    es.onmessage = function(e) {
+      out.textContent += e.data + '\n';
+      if (e.data === '[done]') es.close();
+    };
+    es.onerror = function() { out.textContent += '\n[connection closed]'; es.close(); };
+  </script>
+</body>
+</html>
